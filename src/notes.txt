@@ -1,0 +1,11 @@
+rest api development with flask
+https://www.datascienceblog.net/post/programming/flask-api-development/
+
+Flask crud app
+https://www.askpython.com/python-modules/flask/flask-crud-application
+
+Flask con mysql
+https://parzibyte.me/blog/2021/03/29/flask-mysql-ejemplo-conexion-crud/
+
+Flask Restful
+https://flask-restful.readthedocs.io/en/latest/
