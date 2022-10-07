@@ -13,4 +13,5 @@
  * macOS
   >$ . venv/bin/activate
  * Windows
-  >$ venv\Scripts\activate
+  `py -3 -m venv venv`
+  `venv\Scripts\activate`
