@@ -3,6 +3,7 @@
 ## Prerrequisites
  * python 3 or higher installed
  * pip installed
+ * mysql installed
 
 ## Installation
  * from the root folder run:
