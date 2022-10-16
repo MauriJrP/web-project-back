@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 
-auth = Blueprint('auth', __name__, url_prefix='/auth')
+auth = Blueprint('auth', __name__)
 
 @auth.route('/', methods=['GET'])
 def auth_get():
