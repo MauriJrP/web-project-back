@@ -1,5 +1,5 @@
-from app import db
-from src.models import User
+from src.app import db
+from src.models.User import User
 from bcrypt import hashpw, gensalt, checkpw 
 from base64 import b64encode 
 from hashlib import sha256 
@@ -10,8 +10,9 @@ def get_users():
     Function intended to query database for all users
     """
 
-    users = User.query.all()
-    return [{"id": i.id, "username": i.username, "pwd": i.pwd} for i in users]
+    users = User.get_all()
+    # return [{"id": i.id, "username": i.username, "pwd": i.pwd} for i in users]
+    return [i for i in users]
 
 
 def get_user(uid):
