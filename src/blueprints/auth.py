@@ -51,9 +51,9 @@ def register():
         
         users = get_users()
         print(users)
-        # if len(list(filter(lambda x: x["username"] == username, users))) == 1:         
-        #     return jsonify({"error": "Invalid Form"})
-        # add_user(username, pwd)
+        if len(list(filter(lambda x: x["username"] == username, users))) == 1:         
+            return jsonify({"error": "Invalid Form"})
+        add_user(username, pwd)
         return jsonify({"success": True})
     except Exception as e:
         return jsonify({"error": str(e)})

@@ -6,7 +6,7 @@ class InvalidToken(db.Model):
     __tablename__ = "invalid_tokens"
     
     id = db.Column(db.Integer, primary_key=True)
-    jti = db.Column(db.String)
+    jti = db.Column(db.String(120), nullable=False)
 
     def save(self):
         db.session.add(self)
