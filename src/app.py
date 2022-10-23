@@ -7,7 +7,8 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 
-from config import Config
+import os
+from config import DevConfig, ProdConfig
 
 cors = CORS()
 db = SQLAlchemy()
@@ -17,14 +18,19 @@ ma = Marshmallow()
 
 # Import routes
 from src.blueprints.auth import auth
-from src.models import User, InvalidToken
+
 
 class App:
     """Flask Application"""
 
     def __init__(self):
         self.app = Flask(__name__)
-        self.app.config.from_object(Config)
+
+        env = os.getenv('ENVIRONMENT', 'dev')
+        if env == 'dev':
+            self.app.config.from_object(DevConfig)
+        else:
+            self.app.config.from_object(ProdConfig)
 
         db.init_app(self.app)
         jwt.init_app(self.app)
@@ -36,7 +42,5 @@ class App:
     def run(self):
         """Run Flask Application"""
         self.app.run(debug=True)
-# app = Flask(__name__)
-# app.register_blueprint(auth, url_prefix='/auth')
 
 

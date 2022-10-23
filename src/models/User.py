@@ -6,12 +6,12 @@ class User(db.Model):
     User database model
     """
     
-    __tablename__ = 'User'
+    __tablename__ = 'user'
 
     id = db.Column('user_id', db.Integer, primary_key=True)
-    firstName = db.Column(db.String(30))
-    lastName = db.Column(db.String(30))
-    pwd = db.Column(db.String(20))
+    firstName = db.Column(db.String(30), nullable=False)
+    lastName = db.Column(db.String(30), nullable=False)
+    pwd = db.Column(db.String(60), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     address = db.Column(db.String(120), nullable=False)
     
@@ -35,6 +35,7 @@ class User(db.Model):
 
     @staticmethod
     def get_all():
+        print("Getting all users")
         return User.query.all()
 
     @staticmethod
@@ -48,3 +49,7 @@ class User(db.Model):
     @staticmethod
     def get_by_pwd(value):
         return User.query.filter_by(pwd=value).first()
+
+    @staticmethod
+    def get_by_email(value):
+        return User.query.filter_by(email=value).first()

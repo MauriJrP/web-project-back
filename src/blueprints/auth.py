@@ -5,6 +5,8 @@ from flask_jwt_extended import create_access_token, create_refresh_token, get_jw
     jwt_required
 from src.app import jwt
 
+from src.models.User import User
+
 
 auth = Blueprint('auth', __name__)
 
@@ -32,13 +34,13 @@ def login():
             if len(user) == 1:
                 token = create_access_token(identity=user[0]["id"])
                 refresh_token = create_refresh_token(identity=user[0]["id"])
-                return jsonify({"token": token, "refreshToken": refresh_token})
+                return jsonify({"token": token, "refreshToken": refresh_token}), 200
             else:
-                return jsonify({"error": "Invalid credentials"})
+                return jsonify({"error": "Invalid credentials"}), 401
         else:           
-            return jsonify({"error":"Invalid Form"})
+            return jsonify({"error": "Invalid credentials"}), 401
     except:
-        return jsonify({"error": "Invalid request"})
+        return jsonify({"error": "Invalid request"}), 400
 
 @auth.route("/register", methods=["POST"])
 def register():
@@ -46,19 +48,19 @@ def register():
     End-point to handle user registration, encrypting the password and validating the email
     """
     try:
+        firstName = request.json["firstName"]
+        lastName = request.json["lastName"]
         pwd = encrypt_pwd(request.json['pwd'])
-        username = request.json['username']
+        email = request.json["email"]
+        address = request.json["address"]
+
+        user = User(firstName, lastName, pwd, email, address)
         
-        users = get_users()
-        print(users)
-        if len(list(filter(lambda x: x["username"] == username, users))) == 1:         
-            return jsonify({"error": "Invalid Form"})
-        add_user(username, pwd)
-        return jsonify({"success": True})
+        print(f'Users: {user.get_all()}')
+        user.save()
+        print(f'Users: {user.get_all()}')
+
+        return jsonify({"success": True}), 200
     except Exception as e:
-        return jsonify({"error": str(e)})
-
-
-# @auth.route('/', methods=['GET'])
-# def auth_get():
-#     return jsonify({'message': 'Hello World Get'})
+        print(e)
+        return jsonify({"error": "Invalid request"}), 400
