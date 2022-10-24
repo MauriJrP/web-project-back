@@ -1,4 +1,4 @@
-insert into user (firstName, lastName, pwd, email, address)
+insert into user (firstName, lastName, email, pwd, address)
 values
-    ("mau", "rodriguez", "rewur82re", "maurijdp@gmail.com", "guadalupe")
+    ("mau", "rodriguez", "maurijdp@gmail.com", "rewur82re", "guadalupe")
 ;
