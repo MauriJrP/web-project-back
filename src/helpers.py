@@ -22,7 +22,8 @@ def get_user(uid):
 
     users = User.query.all()
     user = list(filter(lambda x: x.id == uid, users))[0]
-    return {"id": user.id, "username": user.username, "pwd": user.pwd}
+    return {"firstName": user.firstName, "lastName": user.lastName, "email": user.email, "address": user.address}
+    # return {"id": user.id, "username": user.username, "pwd": user.pwd}
 
 
 def add_user(username, pwd):

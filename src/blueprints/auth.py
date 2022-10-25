@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from src.models import InvalidToken
+from src.models.InvalidToken import InvalidToken
 from src.helpers import get_users, get_user, add_user, remove_user, encrypt_pwd, check_pwd
 from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity, get_jwt, \
     jwt_required
@@ -70,7 +70,7 @@ def register():
         return jsonify({"error": "Invalid request"}), 400
 
 
-@auth.route("/api/checkiftokenexpire", methods=["POST"])
+@auth.route("/checkiftokenexpire", methods=["POST"])
 @jwt_required()
 def check_if_token_expire():
     """
@@ -79,7 +79,7 @@ def check_if_token_expire():
     return jsonify({"success": True})
 
 
-@auth.route("/api/refreshtoken", methods=["POST"])
+@auth.route("/refreshtoken", methods=["POST"])
 @jwt_required(refresh=True)
 def refresh():
     """
@@ -89,3 +89,61 @@ def refresh():
     identity = get_jwt_identity()
     token = create_access_token(identity=identity)
     return jsonify({"token": token})
+
+@auth.route("/getcurrentuser")
+@jwt_required()
+def current_user():
+    """
+    End-point to handle collecting the current user information
+    """
+    uid = get_jwt_identity()
+    return jsonify(get_user(uid))
+
+
+@auth.route("/logout/access", methods=["POST"])
+@jwt_required()
+def access_logout():
+    """
+    End-point to log the user out and Invalidate the token.
+    """
+    jti = get_jwt()["jti"]
+    try:
+        invalid_token = InvalidToken(jti=jti)
+        invalid_token.save()
+        return jsonify({"success":True})
+    except Exception as e:
+        print(e)
+        return jsonify({"error": str(e)})
+
+
+@auth.route("/logout/refresh", methods=["POST"])
+@jwt_required()
+def refresh_logout():
+    """
+    End-point to invalidate the token.
+    Can be used with both log the user out or for the frontend to call after refreshing the token.
+
+    """
+    
+    jti = get_jwt()["jti"]
+    try:
+        invalid_token = InvalidToken(jti=jti)
+        invalid_token.save()
+        return jsonify({"success": True})
+    except Exception as e:
+        print(e)
+        return jsonify({"error": str(e)})
+
+
+@auth.route("/deleteaccount", methods=["DELETE"])
+@jwt_required()
+def delete_account():
+    """
+    End-point to handle removal of users
+    """
+    try:
+        user = get_user(get_jwt_identity())
+        remove_user(user.id)
+        return jsonify({"success": True})
+    except Exception as e:
+        return jsonify({"error": str(e)})
