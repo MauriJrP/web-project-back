@@ -14,6 +14,7 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     pwd = db.Column(db.String(60), nullable=False)
     address = db.Column(db.String(120), nullable=False)
+    # idRol = db.Column(db.Integer, db.ForeignKey('rol.id'), nullable=False, default=1)
     
     def __init__(self, firstName, lastName, email, pwd, address):
         self.firstName = firstName
@@ -21,6 +22,7 @@ class User(db.Model):
         self.email = email
         self.pwd = pwd
         self.address = address
+        # self.idRol = idRol
 
     def __repr__(self):
         return f"User('{self.id}, {self.firstName}', '{self.lastName}', '{self.email}', '{self.pwd}', '{self.address}')"
