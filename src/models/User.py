@@ -13,10 +13,10 @@ class User(db.Model):
     lastName = db.Column(db.String(30), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     pwd = db.Column(db.String(60), nullable=False)
-    address = db.Column(db.String(120), nullable=False)
+    address = db.Column(db.String(120), nullable=False, default="")
     # idRol = db.Column(db.Integer, db.ForeignKey('rol.id'), nullable=False, default=1)
     
-    def __init__(self, firstName, lastName, email, pwd, address):
+    def __init__(self, firstName, lastName, email, pwd, address=""):
         self.firstName = firstName
         self.lastName = lastName
         self.email = email

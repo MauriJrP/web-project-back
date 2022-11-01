@@ -58,13 +58,11 @@ def register():
         lastName = request.json["lastName"]
         email = request.json["email"]
         pwd = encrypt_pwd(request.json['pwd'])
-        address = request.json["address"]
-
-        user = User(firstName, lastName, email, pwd, address)
+        user = User(firstName, lastName, email, pwd)
         
         user.save()
 
-        return jsonify({"success": True}), 200
+        return jsonify({"message": "success"}), 200
     except Exception as e:
         print(e)
         return jsonify({"error": "Invalid request"}), 400
