@@ -9,3 +9,6 @@ https://parzibyte.me/blog/2021/03/29/flask-mysql-ejemplo-conexion-crud/
 
 Flask Restful
 https://flask-restful.readthedocs.io/en/latest/
+
+Blueprint architecture
+https://realpython.com/flask-blueprint/
